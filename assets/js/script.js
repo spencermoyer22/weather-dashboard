@@ -1,8 +1,8 @@
-var searchCity = function() {
-    var city = $("#search").val();
+var searchHistory = JSON.parse(localStorage.getItem("history")) || [];
 
+var searchCity = function(cityValue) {
     fetch(
-            "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=30e19a927b18e9081713f88faa6cee64"
+            "http://api.openweathermap.org/geo/1.0/direct?q=" + cityValue + "&limit=1&appid=30e19a927b18e9081713f88faa6cee64"
         )
         .then(function(response){
             return response.json();
@@ -28,9 +28,11 @@ var forecast = function(lat, long) {
         // clear old data
         $("#current-weather-container").text("");
 
-        console.log(data);
         // get city name
         var cityName = $("#search").val();
+
+        // call function to save city and data to local storage
+        saveCity(cityName);
 
         // clear input
         $("#search").val('');
@@ -150,16 +152,36 @@ var uppercase = function(string) {
     return splitCity.join(" ");
 };
 
+var saveCity = function(value) {
+    for (var i = 0; i < searchHistory.length; i++) {
+        if (searchHistory[i] === value) {
+            return;
+        }
+    };
+        
+    searchHistory.push(value);
+    localStorage.setItem("history", JSON.stringify(searchHistory));
+};
+
+var createCityButtons = function(array) {
+    for (var i = 0; i < array.length; i++) {
+        $("<button>")
+        .addClass("newBtn btn bg-white border border-light text-left col-12 p-2")
+        .text(uppercase(array[i]))
+        .appendTo("#search-container");
+    }
+};
+
 $("#btnSearch").on("click", function() {
     event.preventDefault();
-    searchCity();
+
+    var cityValue = $("#search").val();
+
+    searchCity(cityValue);
 });
-// function to pull api data for searched city
 
-// get lat and long set it for one call api
+$(".newBtn").on("click", function() {
+    console.log(this);
+});
 
-// function to display current weather from one call
-
-// function to display 5 day forecast from one call
-
-// grab data from first 5 days to create DOM elements
+createCityButtons(searchHistory);
