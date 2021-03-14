@@ -2,7 +2,7 @@ var searchHistory = JSON.parse(localStorage.getItem("history")) || [];
 
 var searchCity = function(cityValue) {
     fetch(
-            "http://api.openweathermap.org/geo/1.0/direct?q=" + cityValue + "&limit=1&appid=30e19a927b18e9081713f88faa6cee64"
+            "https://api.openweathermap.org/geo/1.0/direct?q=" + cityValue + "&limit=1&appid=30e19a927b18e9081713f88faa6cee64"
         )
         .then(function(response){
             return response.json();
