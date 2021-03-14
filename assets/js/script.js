@@ -13,11 +13,11 @@ var searchCity = function(cityValue) {
             var long = data[0].lon;
 
             // call function to get weather forecast
-            forecast(lat, long);
-        })
+            forecast(lat, long, cityValue);
+        });
 };
 
-var forecast = function(lat, long) {
+var forecast = function(lat, long, cityName) {
     fetch(
         "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&exclude=minutely,hourly,alerts&units=imperial&appid=30e19a927b18e9081713f88faa6cee64"
     )
@@ -27,9 +27,6 @@ var forecast = function(lat, long) {
     .then(function(data){
         // clear old data
         $("#current-weather-container").text("");
-
-        // get city name
-        var cityName = $("#search").val();
 
         // call function to save city and data to local storage
         saveCity(cityName);
@@ -138,7 +135,7 @@ var forecast = function(lat, long) {
             .text("Humidity: " + data.daily[i].humidity + "%")
             .appendTo("#card" + i);
         }
-    })
+    });
 };
 
 var uppercase = function(string) {
@@ -154,7 +151,7 @@ var uppercase = function(string) {
 
 var saveCity = function(value) {
     for (var i = 0; i < searchHistory.length; i++) {
-        if (searchHistory[i] === value) {
+        if (uppercase(searchHistory[i]) === value) {
             return;
         }
     };
@@ -166,10 +163,18 @@ var saveCity = function(value) {
 var createCityButtons = function(array) {
     for (var i = 0; i < array.length; i++) {
         $("<button>")
-        .addClass("newBtn btn bg-white border border-light text-left col-12 p-2")
+        .addClass("new-button btn bg-white border border-light text-left col-12 p-2")
         .text(uppercase(array[i]))
         .appendTo("#search-container");
     }
+
+    // create listener with newly created buttons
+    $(".new-button").on("click", function() {
+        // get text from button and send to search city function
+        var cityHistoryValue = $(this).text();
+
+        searchCity(cityHistoryValue);
+    });
 };
 
 $("#btnSearch").on("click", function() {
@@ -180,8 +185,5 @@ $("#btnSearch").on("click", function() {
     searchCity(cityValue);
 });
 
-$(".newBtn").on("click", function() {
-    console.log(this);
-});
 
 createCityButtons(searchHistory);
