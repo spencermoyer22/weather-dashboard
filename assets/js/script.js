@@ -41,6 +41,7 @@ var forecast = function(lat, long, cityName) {
         var date = moment().format("M/DD/YYYY");
 
         // get current weather icon
+        var icon = data.current.weather[0].icon;
 
         // create container for current weather
         $("<div>")
@@ -51,8 +52,12 @@ var forecast = function(lat, long, cityName) {
         // apply name, date and icon to current weather title
         $("<h2>")
         .addClass("mb-4")
-        .text(upperCityName + " (" + date + ")")
+        .html(upperCityName + " (" + date + ")<img id='current-icon' src='' alt='Weather icon'>")
         .appendTo("#current-weather");
+
+        // get icon url
+        $("#current-icon")
+        .attr("src", "http://openweathermap.org/img/w/" + icon + ".png")
 
         // create p elements for current weather
         $("<p>")
@@ -122,7 +127,7 @@ var forecast = function(lat, long, cityName) {
 
             $("<p>")
             .addClass("card-text")
-            .text("Icon")
+            .html("<img src='http://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png' alt='Weather Icon'>")
             .appendTo("#card" + i);
             
             $("<p>")
