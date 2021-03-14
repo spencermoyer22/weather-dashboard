@@ -57,7 +57,7 @@ var forecast = function(lat, long, cityName) {
 
         // get icon url
         $("#current-icon")
-        .attr("src", "http://openweathermap.org/img/w/" + icon + ".png")
+        .attr("src", "https://openweathermap.org/img/w/" + icon + ".png")
 
         // create p elements for current weather
         $("<p>")
@@ -127,7 +127,7 @@ var forecast = function(lat, long, cityName) {
 
             $("<p>")
             .addClass("card-text")
-            .html("<img src='http://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png' alt='Weather Icon'>")
+            .html("<img src='https://openweathermap.org/img/w/" + data.daily[i].weather[0].icon + ".png' alt='Weather Icon'>")
             .appendTo("#card" + i);
             
             $("<p>")
