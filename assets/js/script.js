@@ -27,7 +27,6 @@ var forecast = function(lat, long) {
     .then(function(data){
         // clear old data
         $("#current-weather-container").text("");
-        $("")
 
         console.log(data);
         // get city name
@@ -90,8 +89,53 @@ var forecast = function(lat, long) {
         }
 
         // create elements for 5 day forecast
+        $("<div>")
+        .addClass("mt-3 future-forecast")
+        .appendTo("#current-weather-container");
 
+        $("<h2>")
+        .text("5-Day Forecast:")
+        .appendTo(".future-forecast");
 
+        // create container for future forecast cards
+        $("<div>")
+        .addClass("card-container row justify-content-around")
+        .appendTo(".future-forecast")
+
+        // use for loop to dynamically create 5 day forecast cards
+        for (i = 1; i < 6; i++) {
+            // create card elements
+            $("<div>")
+            .attr("id", "card" + i)
+            .addClass("col-2 card bg-primary text-white pb-2")
+            .appendTo(".card-container");
+
+            $("<div>")
+            .attr("id", "card-body" + i)
+            .addClass("col card-body pl-0")
+            .appendTo("#card" + i);
+
+            $("<h3>")
+            .attr("style", "font-size: 24px")
+            .addClass("card-title")
+            .text(moment().add(i, 'd').format("M/DD/YYYY"))
+            .appendTo("#card-body" + i);
+
+            $("<p>")
+            .addClass("card-text")
+            .text("Icon")
+            .appendTo("#card" + i);
+            
+            $("<p>")
+            .addClass("card-text")
+            .text("Temp: " + data.daily[i].temp.day + " °F")
+            .appendTo("#card" + i);
+
+            $("<p>")
+            .addClass("card-text")
+            .text("Humidity: " + data.daily[i].humidity + "%")
+            .appendTo("#card" + i);
+        }
     })
 };
 
