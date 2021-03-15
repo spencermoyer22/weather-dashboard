@@ -9,11 +9,11 @@ This website uses HTML and JavaScript to create a weather forecast. This forecas
 * Bootstrap
 
 # Screenshot
-![Weather Dashboard]
+![Weather Dashboard](assets/homepage.png)
 > This screenshot shows the home page of the Weather Dashboard.
 
 # Website
-
+https://spencermoyer22.github.io/weather-dashboard/
 
 # Contribution
 Made by Spencer Moyer
